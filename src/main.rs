@@ -5,7 +5,7 @@ use bevy::prelude::*; //let you import bevy API
 
 fn main() {
     App::new()
-    .add_plugins((DefaultPlugins, HelloPlugin))
+    .add_plugins((DefaultPlugins, MemoPlugin))
     .run();
 }
 
@@ -51,4 +51,26 @@ fn greet_people(
             println!("hello {}!", name.0);
         }
     }
+}
+
+
+// GAME -- BOOK OF MEMENTO
+
+pub struct MemoPlugin;
+
+impl Plugin for MemoPlugin {
+    fn build(&self, app: &mut App) {
+        app
+        .add_systems(Startup, setup);
+    }
+}
+
+
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>){
+    commands.spawn(Camera2dBundle::default());
+    
+    commands.spawn(SpriteBundle{
+        texture: asset_server.load("sprites/traveler_sketch.png"),
+        ..default()
+    });
 }
