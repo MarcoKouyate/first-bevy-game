@@ -66,45 +66,53 @@ impl Plugin for MemoPlugin {
 }
 
 
-// UI Nodes
 
-fn root_node() -> NodeBundle {
-    NodeBundle {
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>){
+    setup_scene(&mut commands, &asset_server);
+    setup_ui(&mut commands, &asset_server);
+}
+
+fn setup_scene(commands: &mut Commands, asset_server: &Res<AssetServer>){
+    commands.spawn(Camera2dBundle::default());
+    
+    commands.spawn(SpriteBundle{
+        texture: asset_server.load("sprites/fire.png"),
+        ..default()
+    });
+}
+
+fn setup_ui(commands: &mut Commands, asset_server: &Res<AssetServer>){
+    let root_node =    NodeBundle {
         style: Style {
             width: Val::Percent(100.0),
             height: Val::Percent(100.0),
-            justify_content: JustifyContent::SpaceBetween,
+            justify_content: JustifyContent::Center,
             ..default()
         },
         ..default()
-    }
-}
-
-fn left_vertical_fill_border() -> NodeBundle {
-    NodeBundle {
+    };
+    
+    let  left_vertical_fill_border =     NodeBundle {
         style: Style {
             width: Val::Px(200.),
+            height: Val::Px(500.),
             border: UiRect::all(Val::Px(2.)),
             ..default()
         },
         background_color: Color::rgb(0.65, 0.65, 0.65).into(),
         ..default()
-    }
-}
+    };
 
-fn left_vertical_fill_content() -> NodeBundle {
-    NodeBundle {
+    let left_vertical_fill_content = NodeBundle {
         style: Style {
             width: Val::Percent(100.),
             ..default()
         },
         background_color: Color::rgb(0.15, 0.15, 0.15).into(),
         ..default()
-    }
-}
+    };
 
-fn text_ui(asset_server: &Res<AssetServer>) -> TextBundle {
-    TextBundle::from_section(
+    let text_ui = TextBundle::from_section(
         "Text Example",
         TextStyle {
             font: asset_server.load("fonts/ShadowsIntoLight-Regular.ttf"),
@@ -114,32 +122,24 @@ fn text_ui(asset_server: &Res<AssetServer>) -> TextBundle {
     ).with_style(Style {
         margin: UiRect::all(Val::Px(5.)),
         ..default()
-    })
-}
-
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>){
-    commands.spawn(Camera2dBundle::default());
-    
-    commands.spawn(SpriteBundle{
-        texture: asset_server.load("sprites/fire.png"),
-        ..default()
     });
+
 
     // root node
     commands
-        .spawn(root_node()).
+        .spawn(root_node).
         with_children(|parent| {
             // left vertical fill (border)
             parent
-                .spawn(left_vertical_fill_border())
+                .spawn(left_vertical_fill_border)
                 .with_children(|parent| {
                     // left vertical fill (content)
                     parent
-                        .spawn(left_vertical_fill_content())
+                        .spawn(left_vertical_fill_content)
                         .with_children(|parent| {
                             // text
                             parent.spawn(    (
-                                text_ui(&asset_server)
+                                text_ui
                                 ,
                                 // Because this is a distinct label widget and
                                 // not button/list item text, this is necessary
