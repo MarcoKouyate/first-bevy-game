@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 mod selection_menu;
 
@@ -7,7 +8,9 @@ pub struct MemoPlugin;
 
 impl Plugin for MemoPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, setup);
+        app
+        .add_plugins(WorldInspectorPlugin::new())
+        .add_systems(Startup, setup);
     }
 }
 
