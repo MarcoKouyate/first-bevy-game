@@ -1,8 +1,9 @@
 use bevy::prelude::*;
 
-use self::inspector::CustomInspectorPlugin;
+use self::{inspector::CustomInspectorPlugin, selection::SelectionPlugin};
 
 mod selection_menu;
+mod selection;
 mod inspector;
 
 // PLUGIN
@@ -12,6 +13,7 @@ impl Plugin for MemoPlugin {
     fn build(&self, app: &mut App) {
         app
         .add_plugins(CustomInspectorPlugin)
+        .add_plugins(SelectionPlugin)
         .add_systems(Startup, setup);
     }
 }
