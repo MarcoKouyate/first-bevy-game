@@ -17,6 +17,22 @@ impl Plugin for Graphics {
     }
 }
 
+
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    setup_ui(&mut commands, &asset_server);
+    setup_scene(&mut commands, &asset_server);
+}
+
+
+fn setup_scene(commands: &mut Commands, asset_server: &Res<AssetServer>) {
+    commands.spawn(Camera2dBundle::default());
+
+    commands.spawn(SpriteBundle {
+        texture: asset_server.load("sprites/fire.png"),
+        ..default()
+    });
+}
+
 fn setup_ui(commands: &mut Commands, asset_server: &Res<AssetServer>) {
 
     let actions = vec![
@@ -32,6 +48,4 @@ fn setup_ui(commands: &mut Commands, asset_server: &Res<AssetServer>) {
 }
 
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    setup_ui(&mut commands, &asset_server);
-}
+

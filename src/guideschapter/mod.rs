@@ -1,7 +1,9 @@
 use bevy::prelude::*;
-use self::graphics::Graphics;
+//use self::graphics::Graphics;
+use self::logic::Logic;
 
 mod graphics;
+mod logic;
 
 // PLUGIN
 pub struct GuidesChapter;
@@ -9,21 +11,7 @@ pub struct GuidesChapter;
 impl Plugin for GuidesChapter {
     fn build(&self, app: &mut App) {
         app
-        .add_plugins(Graphics)
-        .add_systems(Startup, setup);
+        .add_plugins(Logic);
+        //.add_plugins(Graphics);
     }
-}
-
-// SETUP
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    setup_scene(&mut commands, &asset_server);
-}
-
-fn setup_scene(commands: &mut Commands, asset_server: &Res<AssetServer>) {
-    commands.spawn(Camera2dBundle::default());
-
-    commands.spawn(SpriteBundle {
-        texture: asset_server.load("sprites/fire.png"),
-        ..default()
-    });
 }
