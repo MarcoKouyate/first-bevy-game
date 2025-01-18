@@ -6,6 +6,7 @@ use guideschapter::GuidesChapter;
 
 // Test module
 mod greetings;
+pub mod tools;
 
 fn main() {
     App::new()
