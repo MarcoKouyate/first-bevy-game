@@ -1,6 +1,6 @@
 
 use bevy::prelude::*;
-use crate::guideschapter::graphics::DialogueView;
+use crate::guideschapter::graphics::DisplayView;
 
 pub struct ConsolePlugin;
 
@@ -10,8 +10,9 @@ impl Plugin for ConsolePlugin {
     }
 }
 
-impl DialogueView for ConsolePlugin {
+pub struct  ConsoleView;
+impl DisplayView for ConsoleView {
     fn display_dialogue(&self, content: &String){
-        print!("{}", content);
+        println!("CONSOLE: {}", content);
     }
 }

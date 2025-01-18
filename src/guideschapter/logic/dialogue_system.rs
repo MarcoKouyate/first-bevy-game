@@ -1,7 +1,7 @@
 
 use bevy::prelude::*;
 use crate::tools::Queue;
-//use crate::guideschapter::graphics::DialogueView;
+use crate::guideschapter::graphics::dialogue_view::display_dialogue;
 
 pub struct DialogueSystem;
 
@@ -57,7 +57,7 @@ fn display_current_line(
         Some(current) => {
 
             if let Ok(dialogue) = query.get(current){
-                println!("{}", dialogue.0);
+                display_dialogue(&dialogue.0);
             }
             clear_current_line(current, dialogue_system,  commands);
         }
@@ -75,43 +75,6 @@ fn add_next_dialogue_on_press(
         dialogue_system.current = dialogue_system.dialogues.dequeue();
     }
 }
-
-
-// fn press_space_to_clear_dialogue(
-//     commands : Commands,
-//     keyboard_input: Res<Input<KeyCode>>,
-//     dialogue_system: ResMut<DialogueResource>
-
-// ) {
-//     if keyboard_input.just_pressed(KeyCode::Space) {
-//         match dialogue_system.current {
-//             Some(current) => {
-//                 clear_current_line(dialogue_system, current, commands);
-//             }
-//             None => {
-                
-//             }
-//         }
-//     }
-// }
-
-// fn retrieve_next_dialogue_as_current(
-//     mut dialogue_system: ResMut<DialogueResource>,
-//     query : Query<&Dialogue>
-// ) {
-//     match dialogue_system.current {
-//         Some(current) => {
-            
-//         }
-//         None => {
-//             dialogue_system.current = dialogue_system.dialogues.dequeue();
-//             if let Ok(dialogue) = query.get(dialogue_system.current.unwrap()){
-//                 println!("{}", dialogue.0);
-//             }
-//         }
-//     };
-// }
-
 
 
 fn clear_current_line(line : Entity, mut  dialogue_system: ResMut<DialogueResource>, mut commands : Commands){

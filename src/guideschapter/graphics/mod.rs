@@ -1,16 +1,17 @@
 
 use bevy::prelude::*;
-//use self::engine2d::Engine2D;
-use self::console::ConsolePlugin;
+use console::ConsoleView;
+use console::ConsolePlugin;
+
+use engine2d::Engine2DView;
+use engine2d::Engine2DPlugin;
+
+pub mod dialogue_view;
 
 mod engine2d;
 mod console;
 
 pub struct GraphicsPlugin;
-
-pub trait DialogueView {
-    fn display_dialogue(&self, content : &String);
-}
 
 
 impl Plugin for GraphicsPlugin {
@@ -21,7 +22,13 @@ impl Plugin for GraphicsPlugin {
 }
 
 
+pub trait DisplayView {
+    fn display_dialogue(&self, content : &String);
+}
 
+fn get_display_view() -> &'static dyn DisplayView {
+    static DISPLAY_VIEW: ConsoleView = ConsoleView;
+    //static DISPLAY_VIEW: Engine2DView = Engine2DView;
 
-
-
+    &DISPLAY_VIEW
+}
